@@ -25,28 +25,64 @@ ChartJs.register(
   Legend,
   ArcElement
 );
-function ChartYear() {
-  const { incomes, expenses } = useGlobalContext();
+function ChartYear({ startDate, endDate }) {
+   const { incomes, expenses } = useGlobalContext();
   const incomeByDate = {};
-  incomes.forEach((income) => {
-    const { date, amount } = income;
-    const formattedDate = format(parseISO(date), "yyyy");
-    if (incomeByDate[formattedDate]) {
-      incomeByDate[formattedDate] += amount;
-    } else {
-      incomeByDate[formattedDate] = amount;
-    }
-  }); // Tạo một đối tượng để nhóm chi phí theo ngày và tính tổng
   const expenseByDate = {};
-  expenses.forEach((expense) => {
-    const { date, amount } = expense;
-    const formattedDate = format(parseISO(date), "yyyy");
-    if (expenseByDate[formattedDate]) {
-      expenseByDate[formattedDate] += amount;
-    } else {
-      expenseByDate[formattedDate] = amount;
-    }
-  }); // Tạo một mảng chứa tất cả các ngày duy nhất từ cả thu nhập và chi phí
+  if (startDate != "" && endDate != "") {
+    incomes.forEach((income) => {
+      const { date, amount } = income;
+      const formattedDate = format(parseISO(date), "yyyy");
+      const formattedStartDate = format(parseISO(startDate), "yyyy");
+      const formattedEndDate = format(parseISO(endDate), "yyyy");
+      if (
+        formattedDate >= formattedStartDate &&
+        formattedDate <= formattedEndDate
+      ) {
+        if (incomeByDate[formattedDate]) {
+          incomeByDate[formattedDate] += amount;
+        } else {
+          incomeByDate[formattedDate] = amount;
+        }
+      }
+    });
+    expenses.forEach((expense) => {
+      const { date, amount } = expense;
+      const formattedDate = format(parseISO(date), "yyyy");
+      const formattedStartDate = format(parseISO(startDate), "yyyy");
+      const formattedEndDate = format(parseISO(endDate), "yyyy");
+      if (
+        formattedDate >= formattedStartDate &&
+        formattedDate <= formattedEndDate
+      ) {
+        if (expenseByDate[formattedDate]) {
+          expenseByDate[formattedDate] += amount;
+        } else {
+          expenseByDate[formattedDate] = amount;
+        }
+      }
+    });
+  } else if (startDate == "" || endDate == "") {
+    incomes.forEach((income) => {
+      const { date, amount } = income;
+      const formattedDate = format(parseISO(date), "yyyy");
+      if (incomeByDate[formattedDate]) {
+        incomeByDate[formattedDate] += amount;
+      } else {
+        incomeByDate[formattedDate] = amount;
+      }
+    });
+    expenses.forEach((expense) => {
+      const { date, amount } = expense;
+      const formattedDate = format(parseISO(date), "yyyy");
+      if (expenseByDate[formattedDate]) {
+        expenseByDate[formattedDate] += amount;
+      } else {
+        expenseByDate[formattedDate] = amount;
+      }
+    });
+  }
+
   const uniqueDates = [
     ...new Set([...Object.keys(incomeByDate), ...Object.keys(expenseByDate)]),
   ];

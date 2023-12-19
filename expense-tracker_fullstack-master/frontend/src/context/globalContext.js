@@ -11,6 +11,8 @@ export const GlobalProvider = ({children}) => {
 
     const [incomes, setIncomes] = useState([])
     const [expenses, setExpenses] = useState([])
+    const [budgets, setBudgets] = useState([])
+
     const [error, setError] = useState(null)
 
     //calculate incomes
@@ -72,6 +74,35 @@ export const GlobalProvider = ({children}) => {
         return totalIncome;
     }
 
+    //////
+    const addBudget = async (budget) => {
+        const response = await axios.post(`${BASE_URL}add-budget`, budget)
+            .catch((err) =>{
+                setError(err.response.data.message)
+            })
+        getBudgets()
+    }
+
+    const getBudgets = async () => {
+        const response = await axios.get(`${BASE_URL}get-budgets`)
+        setBudgets(response.data)
+        console.log(response.data)
+    }
+
+    const deleteBudget = async (id) => {
+        const res  = await axios.delete(`${BASE_URL}delete-budget/${id}`)
+        getBudgets()
+    }
+
+    const totalBudget = () => {
+        let totalBudget = 0;
+        budgets.forEach((budget) =>{
+            totalBudget = totalBudget + budget.amount
+        })
+
+        return totalBudget;
+    }
+
 
     const totalBalance = () => {
         return totalIncome() - totalExpenses()
@@ -93,6 +124,10 @@ export const GlobalProvider = ({children}) => {
             getIncomes,
             incomes,
             deleteIncome,
+            addBudget,
+            getBudgets,
+            budgets,
+            deleteBudget,
             expenses,
             totalIncome,
             addExpense,

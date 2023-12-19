@@ -9,14 +9,16 @@ import View from './Components/Dashboard/View';
 import Income from './Components/Income/Income'
 import Expenses from './Components/Expenses/Expenses';
 import { useGlobalContext } from './context/globalContext';
+import Budget from './Components/Budget/Budget';
 
 function App() {
   const [active, setActive] = useState(1)
 
   const global = useGlobalContext()
   console.log(global);
-
+  
   const displayData = () => {
+    
     switch(active){
       case 1:
         return <Dashboard />
@@ -26,6 +28,8 @@ function App() {
         return <Income />
       case 4: 
         return <Expenses />
+      case 5: 
+        return <Budget />
       default: 
         return <Dashboard />
     }
@@ -47,6 +51,8 @@ function App() {
     </AppStyled>
   );
 }
+
+
 
 const AppStyled = styled.div`
   height: 100vh;
