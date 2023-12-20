@@ -7,16 +7,18 @@ import IncomeItem from '../IncomeItem/IncomeItem';
 import ExpenseForm from './ExpenseForm';
 
 function Expenses() {
-    const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+    const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses, expensebudget} = useGlobalContext()
 
     useEffect(() =>{
         getExpenses()
     }, [])
+    console.log(expensebudget);
     return (
         <ExpenseStyled>
             <InnerLayout>
                 <h1>Expenses</h1>
-                <h2 className="total-income">Total Expense: <span>${totalExpenses()}</span></h2>
+                <h2 className="total-income">Total Expense: <span>${totalExpenses()}</span>
+                Budget: <span>$10000</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <ExpenseForm />

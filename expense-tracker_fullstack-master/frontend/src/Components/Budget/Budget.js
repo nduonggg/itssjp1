@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext';
 import { InnerLayout } from '../../styles/Layouts';
-import Form from '../Form/Form';
+import BudgetForm from '../Form/BudgetForm';
 import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Budget() {
-    const {addBudget, budgets, getBudgets, deteleBudget, totalBudget} = useGlobalContext()
+    const {addBudget, budgets, getBudgets, deteleBudget, totalBudget, expensebudget, incomebudget} = useGlobalContext()
 
     useEffect(() =>{
         getBudgets()
@@ -15,24 +15,17 @@ function Budget() {
         <IncomeStyled>
             <InnerLayout>
                 <h1>Budgets</h1>
-                {/* <h2 className="total-income">Total Budget: <span>${totalBudget()}</span></h2> */}
                 <div className="income-content">
                     <div className="form-container">
-                        <Form />
+                        <BudgetForm />
                     </div>
                     <div className="incomes">
                         {budgets.map((budget) => {
-                            const {_id, title, amount, date, category, description, type} = budget;
+                            console.log(incomebudget, expensebudget);
+                            const {incomebudget, expensebudget} = budget;
                             return <IncomeItem
-                                key={_id}
-                                id={_id} 
-                                title={title} 
-                                description={description} 
-                                amount={amount} 
-                                date={date} 
-                                type={type}
-                                category={category} 
-                                indicatorColor="var(--color-green)"
+                                incomebudget={incomebudget} 
+                                expensebudget={expensebudget} 
                                 deleteItem={deteleBudget}
                             />
                         })}
