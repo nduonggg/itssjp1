@@ -13,7 +13,7 @@ exports.addBudget = async (req, res) => {
         await budget.save()
         res.status(200).json({message: 'budget Added'})
     } catch (error) {
-        res.status(500).json({message: 'Server Error'})
+        // res.status(500).json({message: 'Server Error'})
     }
 
     console.log(budget)
@@ -24,7 +24,7 @@ exports.getBudgets = async (req, res) =>{
         const budgets = await BudgetSchema.find().sort({createdAt: -1})
         res.status(200).json(budgets)
     } catch (error) {
-        res.status(500).json({message: 'Server Error'})
+        // res.status(500).json({message: 'Server Error'})
     }
 }
 
@@ -35,6 +35,6 @@ exports.deleteBudget = async (req, res) =>{
             res.status(200).json({message: 'Budget Deleted'})
         })
         .catch((err) =>{
-            res.status(500).json({message: 'Server Error'})
+            // res.status(500).json({message: 'Server Error'})
         })
 }
